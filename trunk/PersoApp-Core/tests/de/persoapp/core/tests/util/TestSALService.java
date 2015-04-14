@@ -67,6 +67,8 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.ws.WebServiceContext;
 
+import junit.framework.Assert;
+import de.persoapp.core.client.ECardSession;
 import de.persoapp.core.client.PropertyResolver;
 import de.persoapp.core.ws.SALService;
 
@@ -88,18 +90,49 @@ import de.persoapp.core.ws.SALService;
 @WebService(serviceName = "SAL", portName = "SALPort", targetNamespace = "urn:iso:std:iso-iec:24727:tech:schema")
 public class TestSALService implements SAL {
 	
-	public EAC1InputType tmpEac1 = null;
-	public EAC2InputType tmpEac2 = null;
+	private EAC1InputType tmpEac1 = null;
+	private EAC2InputType tmpEac2 = null;
 	
-	public ArrayList<String> nullListEAC1 = null;
-	public ArrayList<String> nullListEAC2 = null;
-	public ArrayList<String> nullListEAC2b = null;
+	private ArrayList<String> nullListEAC1 = null;
+	private ArrayList<String> nullListEAC2 = null;
+	private ArrayList<String> nullListEAC2b = null;
 	
-	public ConfigTestcase configFlag = null;
+	private ConfigTestcase configFlag = null;
 	
-	public HashMap<DIDAuthenticate,DIDAuthenticateResponse> response = new HashMap<DIDAuthenticate,DIDAuthenticateResponse>();
+	private HashMap<DIDAuthenticate,DIDAuthenticateResponse> response = new HashMap<DIDAuthenticate,DIDAuthenticateResponse>();
 	
 	private SALService sal = new SALService();
+	
+	public synchronized void setDataEAC1( EAC1InputType eac1) {
+		tmpEac1 = eac1;
+	}
+	
+	
+	public synchronized void setDataEAC2( EAC2InputType eac2) {
+		tmpEac2 = eac2;
+	}
+	
+	public synchronized void setNullListEAC1(ArrayList<String> list) {
+		nullListEAC1 = list;
+	}
+
+	public synchronized void setNullListEAC2(ArrayList<String> list) {
+		nullListEAC2 = list;
+	}
+	
+	
+	public synchronized void setNullListEAC2b(ArrayList<String> list) {
+		nullListEAC2b = list;
+	}
+	
+	public synchronized void setConfigFlag(ConfigTestcase conf) {
+		configFlag = conf;
+	}
+	
+	public synchronized HashMap<DIDAuthenticate,DIDAuthenticateResponse> getResponse() {
+		return response;
+	}
+	
 	
 	/**
 	 * injected local web service context providing access to message contexts

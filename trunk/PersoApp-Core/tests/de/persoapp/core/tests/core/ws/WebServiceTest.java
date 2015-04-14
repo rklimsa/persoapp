@@ -46,7 +46,7 @@
  * 
  */
 
-package de.persoapp.core.tests;
+package de.persoapp.core.tests.core.ws;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -72,6 +72,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -120,24 +121,24 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WebServiceTest{
 	
-	private static WSContainer wsCtx;
+	private WSContainer wsCtx;
 	private String	serviceURL;
 	
 	private static Logger logger = Logger.getLogger(WebServiceTest.class.getName());
-	private static IMainView	mainView;
+	private IMainView	mainView;
 
-	private static IFDService ifdservice;
+	private IFDService ifdservice;
 	
 	private static Properties properties;
 	
 	/**
 	 * Test spy for indirect output
 	 */
-	private static TestSALService salservice;
-	private static ManagementService managementservice;
+	private TestSALService salservice;
+	private ManagementService managementservice;
 	
-	private static CardHandler eCardHandler;
-	private static ECardSession session;
+	private CardHandler eCardHandler;
+	private ECardSession session;
 	
 	/**
 	 * Load the resource file for default pin and
@@ -541,7 +542,7 @@ public class WebServiceTest{
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
 
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
-		
+
 		short FID = 0x011C;
 		byte[] correctApdu = new byte[]{0x00, (byte) 0xA4, 0x02, 0x0C, 0x02, (byte) (FID >> 8), (byte) (FID & 0xFF) };
 		
@@ -592,7 +593,7 @@ public class WebServiceTest{
 	public void testSALServiceNull_1() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), null);
-		salservice.response.clear();
+		salservice.getResponse().clear();
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
@@ -610,10 +611,10 @@ public class WebServiceTest{
 		try{
 			salservice.didAuthenticate(parameters);
 		} catch (final NullPointerException e) {
-			logger.log(Level.INFO, "NullpointerException is thrown: "+e.getStackTrace()[0]);
+			logger.log(Level.INFO, "NullpointerException is thrown: "+e.getMessage());
 			return;
 		} catch (final Throwable t) {
-			fail("Unexpected Throwable is thrown: "+t.getStackTrace()[0]);
+			fail("Unexpected Throwable is thrown: "+t.getMessage());
 		}
 		fail("No NullpointerException is thrown.");
 	}
@@ -652,7 +653,7 @@ public class WebServiceTest{
 	public void testSALServiceNull_2() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
+		salservice.getResponse().clear();
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
@@ -702,7 +703,7 @@ public class WebServiceTest{
 	public void testSALServiceNull_3() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
+		salservice.getResponse().clear();
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
@@ -746,7 +747,7 @@ public class WebServiceTest{
 	public void testSALServiceNull_4() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
+		salservice.getResponse().clear();
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
@@ -796,7 +797,7 @@ public class WebServiceTest{
 	public void testSALServiceNull_5() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
+		salservice.getResponse().clear();
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
@@ -841,7 +842,7 @@ public class WebServiceTest{
 	public void testSALServiceNull_6() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
+		salservice.getResponse().clear();
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
@@ -892,7 +893,7 @@ public class WebServiceTest{
 	public void testSALServiceNull_7() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
+		salservice.getResponse().clear();
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
@@ -937,7 +938,7 @@ public class WebServiceTest{
 	public void testSALServiceNull_8() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
+		salservice.getResponse().clear();
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
@@ -983,7 +984,7 @@ public class WebServiceTest{
 	public void testSALServiceNull_9() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
+		salservice.getResponse().clear();
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
@@ -1034,7 +1035,7 @@ public class WebServiceTest{
 	public void testSALServiceNull_10() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
+		salservice.getResponse().clear();
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
@@ -1078,7 +1079,7 @@ public class WebServiceTest{
 	public void testSALServiceNull_11() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
+		salservice.getResponse().clear();
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
@@ -1120,9 +1121,10 @@ public class WebServiceTest{
 	public void testSALServiceInvalidParameter_1() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
-		salservice.configFlag = ConfigTestcase.DELETE_DATA;
-		
+		salservice.getResponse().clear();
+		salservice.setConfigFlag(ConfigTestcase.DELETE_DATA);
+
+		assertTrue("No session", wsCtx.getMessageContext().get(ECardSession.class.getName())!=null);
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
 		try{
@@ -1131,7 +1133,7 @@ public class WebServiceTest{
 			fail("Unexpected Throwable is thrown: "+t.getMessage());
 		}
 		
-		HashMap<DIDAuthenticate,DIDAuthenticateResponse> response = salservice.response;
+		HashMap<DIDAuthenticate,DIDAuthenticateResponse> response = salservice.getResponse();
 		
 		assertEquals(0, response.size());
 	}
@@ -1172,8 +1174,8 @@ public class WebServiceTest{
 	public void testSALServiceInvalidParameter_2() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
-		salservice.configFlag = ConfigTestcase.UNKNOWN_AUTH_PROT_DATA;
+		salservice.getResponse().clear();
+		salservice.setConfigFlag(ConfigTestcase.UNKNOWN_AUTH_PROT_DATA);
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		try {
@@ -1182,7 +1184,7 @@ public class WebServiceTest{
 			fail("Unexpected Throwable is thrown: "+t.getMessage());
 		}
 		
-		HashMap<DIDAuthenticate,DIDAuthenticateResponse> response = salservice.response;
+		HashMap<DIDAuthenticate,DIDAuthenticateResponse> response = salservice.getResponse();
 		for(Entry<DIDAuthenticate,DIDAuthenticateResponse> entry: response.entrySet())
 		{
 			assertNotNull("parameter is null", entry.getKey());
@@ -1228,8 +1230,8 @@ public class WebServiceTest{
 	public void testSALServiceInvalidParameter_3() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
-		salservice.configFlag = ConfigTestcase.RENEW_DATA_FIRST_PHASE_OF_EAC;
+		salservice.getResponse().clear();
+		salservice.setConfigFlag(ConfigTestcase.RENEW_DATA_FIRST_PHASE_OF_EAC);
 		
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		try {
@@ -1252,7 +1254,7 @@ public class WebServiceTest{
 	 * <b>Preconditions:</b>
 	 * <ul>
 	 * <li>A single basic card reader is connected to the eID-Client system.</li>
-	 * <li>A single active eID-Card is connected to the card reader.</li>
+	 * <li>A single active test eID-Card is connected to the card reader.</li>
 	 * </ul>
 	 * <b>TestStep: </b>
 	 * <ul>
@@ -1273,8 +1275,8 @@ public class WebServiceTest{
 	public void testSALServiceInvalidParameter_4() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
-		salservice.configFlag = ConfigTestcase.RENEW_DATA_SECOND_PHASE_OF_EAC;
+		salservice.getResponse().clear();
+		salservice.setConfigFlag(ConfigTestcase.RENEW_DATA_SECOND_PHASE_OF_EAC);
 
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		try {
@@ -1315,7 +1317,7 @@ public class WebServiceTest{
 	public void testSALServiceValidParameter_1() {
 		wsCtx.getMessageContext().clear();
 		wsCtx.getMessageContext().put(ECardSession.class.getName(), session);
-		salservice.response.clear();
+		salservice.getResponse().clear();
 		assertNotNull("No eID card inserted",eCardHandler.getECard());
 		
 		try {
@@ -1323,7 +1325,7 @@ public class WebServiceTest{
 		} catch(final Throwable t) {
 			fail("Unexpected Throwable is thrown: "+t.getMessage());
 		}
-		HashMap<DIDAuthenticate,DIDAuthenticateResponse> response = salservice.response;
+		HashMap<DIDAuthenticate,DIDAuthenticateResponse> response = salservice.getResponse();
 			
 		assertFalse("no response from didAuthenticate",response.isEmpty());
 		System.out.println(response.size());
@@ -1420,7 +1422,7 @@ public class WebServiceTest{
 	 * <b>Preconditions:</b>
 	 * <ul>
 	 * <li>A single basic card reader is connected to the eID-Client system.</li>
-	 * <li>A single active eID-Card is connected to the card reader.</li>
+	 * <li>A single active test eID-Card is connected to the card reader.</li>
 	 * </ul>
 	 * <b>TestStep: </b>
 	 * <ul>
@@ -1562,17 +1564,17 @@ public class WebServiceTest{
 			switch(flag){
 				//Change EAC1InputType
 				case EAC_1: {
-					salservice.nullListEAC1 = nullList;
+					salservice.setNullListEAC1(nullList);
 					break;
 				}
 				//Change EAC2InputType
 				case EAC_2: {
-					salservice.nullListEAC2 = nullList;
+					salservice.setNullListEAC2(nullList);
 					break;
 				}
 				//Change EACAdditionalInputType
 				case EAC_A: {
-					salservice.nullListEAC2b = nullList;
+					salservice.setNullListEAC2b(nullList);
 					break;
 				}
 				//Do nothing
@@ -1627,8 +1629,27 @@ public class WebServiceTest{
 	}
 
 	
+	/**
+	 * Reset the ECardWorker
+	 * 
+	 * @throws NoSuchFieldException
+	 * @throws SecurityException
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
 	@After
-	public void tearDown() {
-		eCardHandler.reset();
+	public synchronized void cleanUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		
+		long end = System.currentTimeMillis() + 6000;
+		
+		while(System.currentTimeMillis()<end) {
+			// wait to prevent race condition between testcases.
+		}
+		
+		Field field = ECardWorker.class.getDeclaredField("mainView");
+		field.setAccessible(true);
+		field.set(null, null);
+		field.setAccessible(false);
+		ECardWorker.init(null, null, null);
 	}
 }

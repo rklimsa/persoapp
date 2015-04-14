@@ -94,13 +94,10 @@ import de.persoapp.core.ws.engine.WSEndpoint;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Complete {
 
-	/*
-	 * magic constant for default test service
-	 */
 	private String	serviceURL	= null;
 	private String	DEFAULT_PIN	= null;
 
-	private static final String resourcePath = "/tests/resources/test_config.properties";
+	
 	
 	private static Properties properties = null;
 	
@@ -120,6 +117,7 @@ public class Complete {
 	 */
 	@BeforeClass
 	public static void setUp() throws FileNotFoundException, IOException {
+		final String resourcePath = "/tests/resources/test_config.properties";
 		final File res = new File(new File("").getAbsolutePath()+resourcePath);
 
 		if(res.exists()) {
@@ -127,7 +125,7 @@ public class Complete {
 			properties.load(new FileInputStream(res));
 		}
 		else {
-			fail("Missing file: "+res.getPath());
+			throw new FileNotFoundException("File not found: " + resourcePath);
 		}
 	}
 	
@@ -261,7 +259,7 @@ public class Complete {
 	 * <b>Preconditions:</b>
 	 * <ul>
 	 * <li>A single basic card reader is connected to the eID-Client system.</li>
-	 * <li>A single active eID-Card is connected to the card reader.</li>
+	 * <li>A single active test eID-Card is connected to the card reader.</li>
 	 * <li>{@link #a1_initialization()} was successful.</li>
 	 * </ul>
 	 * <b>TestStep: </b>
