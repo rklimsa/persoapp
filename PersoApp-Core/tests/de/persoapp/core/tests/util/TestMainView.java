@@ -53,8 +53,7 @@ import de.persoapp.core.client.IMainView;
 import de.persoapp.core.client.SecureHolder;
 
 /**
- * @author ckahlo
- * 
+ * @author Christian Kahlo, 2014
  */
 public class TestMainView implements IMainView {
 

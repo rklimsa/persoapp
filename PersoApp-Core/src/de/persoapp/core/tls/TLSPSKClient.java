@@ -59,7 +59,6 @@ import org.bouncycastle.crypto.tls.TlsAuthentication;
 import org.bouncycastle.crypto.tls.TlsPSKIdentity;
 
 /**
- * 
  * Support class for BouncyCastle TLS stack to enable TLS_RSA_PSK support.
  * 
  * @author Christian Kahlo
@@ -69,7 +68,6 @@ public class TLSPSKClient extends PSKTlsClient {
 
 	/**
 	 * Authentication instance to retrieve server certificate.
-	 * 
 	 */
 	private final TlsAuthentication	authentication	= new BCTlsAuthentication();
 
@@ -97,17 +95,17 @@ public class TLSPSKClient extends PSKTlsClient {
 		return defaultCS;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.bouncycastle.crypto.tls.AbstractTlsPeer#notifyAlertRaised(short,
-	 * short, java.lang.String, java.lang.Exception)
-	 */
-	@Override
-	public void notifyAlertRaised(final short alertLevel, final short alertDescription, final String message,
-			final Exception cause) {
-		System.out.println("### ALERT RAISED: " + alertLevel + "/" + alertDescription + " = " + message + ", " + cause);
-	}
+//	/*
+//	 * (non-Javadoc)
+//	 * 
+//	 * @see org.bouncycastle.crypto.tls.AbstractTlsPeer#notifyAlertRaised(short,
+//	 * short, java.lang.String, java.lang.Exception)
+//	 */
+//	@Override
+//	public void notifyAlertRaised(final short alertLevel, final short alertDescription, final String message,
+//			final Exception cause) {
+//		System.out.println("### ALERT RAISED: " + alertLevel + "/" + alertDescription + " = " + message + ", " + cause);
+//	}
 
 	@Override
 	public void notifySecureRenegotiation(final boolean secureRenegotiation) throws IOException {
