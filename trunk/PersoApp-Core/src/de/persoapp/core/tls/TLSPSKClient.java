@@ -95,17 +95,17 @@ public class TLSPSKClient extends PSKTlsClient {
 		return defaultCS;
 	}
 
-//	/*
-//	 * (non-Javadoc)
-//	 * 
-//	 * @see org.bouncycastle.crypto.tls.AbstractTlsPeer#notifyAlertRaised(short,
-//	 * short, java.lang.String, java.lang.Exception)
-//	 */
-//	@Override
-//	public void notifyAlertRaised(final short alertLevel, final short alertDescription, final String message,
-//			final Exception cause) {
-//		System.out.println("### ALERT RAISED: " + alertLevel + "/" + alertDescription + " = " + message + ", " + cause);
-//	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.bouncycastle.crypto.tls.AbstractTlsPeer#notifyAlertRaised(short,
+	 * short, java.lang.String, java.lang.Throwable)
+	 */
+	@Override
+	public void notifyAlertRaised(final short alertLevel, final short alertDescription, final String message,
+			final Throwable cause) {
+		System.out.println("### ALERT RAISED: " + alertLevel + "/" + alertDescription + " = " + message + ", " + cause);
+	}
 
 	@Override
 	public void notifySecureRenegotiation(final boolean secureRenegotiation) throws IOException {

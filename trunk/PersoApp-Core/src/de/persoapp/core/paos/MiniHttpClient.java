@@ -114,7 +114,32 @@ public class MiniHttpClient {
 	 * The line feed.
 	 */
 	private static final char			LF				= 10;
+	
+	
+	private static final String			CONTENT_LENGTH = "Content-Length";
+	
+	
+	private static final String			CONNECTION ="Connection";
+	
+	
+	private static final String			TRANSFER_ENCODING = "Transfer-Encoding";
 
+	
+	private static final String			CONTENT_ENCODING = "Content-Encoding";
+	
+	
+	private static final String			TRANSFER_ENCODING_CHUNKED = "chunked";
+	
+	
+	private static final String			CONNECTION_CLOSE = "close";
+	
+	
+	private static final String			CONTENT_ENCODING_GZIP = "gzip";
+	
+	
+	private static final String			CONTENT_ENCODING_DEFLATE = "deflate";
+	
+	
 	/**
 	 * Reads a number of characters from a line of a given {@link InputStream}.
 	 * The number is set up through the <strong>limit</strong> argument.
@@ -348,29 +373,29 @@ public class MiniHttpClient {
 		String temp;
 		while ((temp = readLine(is)) != null && temp.length() > 0) {
 			final int n = temp.indexOf(':');
-			responseHeaders.put(temp.substring(0, n).trim(), temp.substring(n + 1).trim());
+			responseHeaders.put(temp.substring(0, n).trim().toLowerCase(), temp.substring(n + 1).trim().toLowerCase());
 		}
 
 		long contentLength = -1;
 		try {
-			contentLength = Long.parseLong(responseHeaders.get("Content-Length"));
+			contentLength = Long.parseLong(responseHeaders.get(CONTENT_LENGTH.toLowerCase()));
 		} catch (final Exception e) {
 		}
 		boolean connectionClose = false;
 		try {
-			connectionClose = "close".equals(responseHeaders.get("Connection").toLowerCase());
+			connectionClose = CONNECTION_CLOSE.equalsIgnoreCase(responseHeaders.get(CONNECTION.toLowerCase()).toLowerCase());
 		} catch (final Exception e) {
 		}
 
-		if ("chunked".equalsIgnoreCase(responseHeaders.get("Transfer-Encoding"))) {
+		if (TRANSFER_ENCODING_CHUNKED.equalsIgnoreCase(responseHeaders.get(TRANSFER_ENCODING.toLowerCase()))) {
 			is = new ChunkingInputStream(is);
 		}
 
-		final String contentEncoding = responseHeaders.get("Content-Encoding");
-		if ("gzip".equalsIgnoreCase(contentEncoding)) {
+		final String contentEncoding = responseHeaders.get(CONTENT_ENCODING.toLowerCase());
+		if (CONTENT_ENCODING_GZIP.equalsIgnoreCase(contentEncoding)) {
 			is = new GZIPInputStream(is);
 		}
-		if ("deflate".equalsIgnoreCase(contentEncoding)) {
+		if (CONTENT_ENCODING_DEFLATE.equalsIgnoreCase(contentEncoding)) {
 			final Inflater inf = new Inflater(true);
 			is = new InflaterInputStream(is, inf);
 		}
