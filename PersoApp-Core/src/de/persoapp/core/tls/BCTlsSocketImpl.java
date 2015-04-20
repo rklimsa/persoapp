@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.security.SecureRandom;
 
 import javax.net.ssl.HandshakeCompletedListener;
 import javax.net.ssl.SSLSession;
@@ -105,7 +106,7 @@ public final class BCTlsSocketImpl extends SSLSocket {
 	 */
 	public BCTlsSocketImpl(final Socket netSocket, final BCTlsSocketFactoryImpl factory, final boolean serverMode)
 			throws IOException {
-		tls = new TlsClientProtocol(netSocket.getInputStream(), netSocket.getOutputStream());
+		tls = new TlsClientProtocol(netSocket.getInputStream(), netSocket.getOutputStream(),new SecureRandom());
 		final byte[][] pskParams = factory.getPSKParameters();
 
 		final String hostname = netSocket.getInetAddress().getCanonicalHostName();

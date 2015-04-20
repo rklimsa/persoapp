@@ -326,7 +326,7 @@ public class PACE {
 
 	/**
 	 * Multiplies the parameter <em>k</em> with the Naf determined by
-	 * the function determineNaf. Returns the result after the multiply
+	 * the function determineNaf. Returns the result after the multiplication
 	 * has finished.
 	 * 
 	 * @param k
