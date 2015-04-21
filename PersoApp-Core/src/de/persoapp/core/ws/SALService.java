@@ -585,13 +585,14 @@ public class SALService implements SAL {
 					final byte[] cvcert_ = TLV.get(TLV.get(cvcert, (short) 0x7F21), (short) 0x7F4E);
 					final byte[] CAR = TLV.get(cvcert_, (byte) 0x42);
 					final byte[] CHR = TLV.get(cvcert_, (short) 0x5F20);
+					String certName = new String(CAR) + "/" + new String(CHR);
 
-					System.out.println("CVC: " + CAR + "/" + CHR + " = " + Hex.toString(cvcert));
+					System.out.println("CVC: " + certName + " = " + Hex.toString(cvcert));
 					if (eCardHandler.verifyCertificate(cvcert)) {
 						root = CHR;
 					} else {
-						certMap.remove(root);
-						System.out.println("WARNING: [" + CAR + "/" + CHR + "] did not pass verification.");
+						certMap.remove(ByteBuffer.wrap(root));
+						System.out.println("WARNING: [" + certName + "] did not pass verification.");
 					}
 				}
 
