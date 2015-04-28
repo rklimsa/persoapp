@@ -34,7 +34,6 @@ import org.junit.runner.Description;
 import org.junit.runners.MethodSorters;
 
 import de.persoapp.core.ECardWorker;
-
 import de.persoapp.core.card.CardHandler;
 import de.persoapp.core.client.IMainView;
 import de.persoapp.core.client.MainViewEventListener;
@@ -44,10 +43,13 @@ import de.persoapp.core.ws.ManagementService;
 import de.persoapp.core.ws.SALService;
 import de.persoapp.core.ws.engine.WSContainer;
 import de.persoapp.core.util.Util;
+
 import java.net.URI;
 import java.net.URLConnection;
 import java.security.cert.X509Certificate;
+
 import javax.net.ssl.SSLSocketFactory;
+
 import org.xml.sax.ContentHandler;
 
 /**
@@ -426,17 +428,21 @@ public class UtilTest {
 			}
 		};
 
-		final String refreshURL = ECardWorker.start(tcTokenURL);
-		assertNotNull("no refresh URL", refreshURL);
+		try {
+			final String refreshURL = ECardWorker.start(tcTokenURL);
+			assertNotNull("no refresh URL", refreshURL);
 
-		if (!spy.isValue()) {
-			Logger.getGlobal().info("Test function was not called. Aborting.");
-			return;
+			System.out.println("refreshURL: " + refreshURL);
+			connectToRefreshURL(refreshURL, false);
+			
+		} catch (final IOException ioe) {
+			if (!spy.isValue()) {
+				Logger.getGlobal().info("Test function was not called. Aborting.");
+				return;
+			}			
+		} finally {
+			mockUp.tearDown();
 		}
-
-		System.out.println("refreshURL: " + refreshURL);
-		connectToRefreshURL(refreshURL, false);
-		mockUp.tearDown();
 
 	}
 

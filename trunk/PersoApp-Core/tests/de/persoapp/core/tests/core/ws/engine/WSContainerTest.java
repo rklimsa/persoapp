@@ -850,7 +850,7 @@ public class WSContainerTest {
 		
 		System.out.println("refreshURL: " + refreshURL);
 
-		if(spy.getStringValue()!=null&&!spy.getStringValue().trim().isEmpty()) { 
+		if(spy.isValue()) { 
 			mockUp.tearDown();
 			fail(spy.getStringValue());
 		}
@@ -938,7 +938,7 @@ public class WSContainerTest {
 	
 	
 	/**
-	 * Online authentication is triggered and the bound classes of an enpoint are checked.<br/>
+	 * Online authentication is triggered and the bound classes of an endpoint are checked.<br/>
 	 * <br/>
 	 * <b>References: </b>TR-03124-1, Section 2 <em>Online-Authentication</em><br/>
 	 * <b>Preconditions:</b>
