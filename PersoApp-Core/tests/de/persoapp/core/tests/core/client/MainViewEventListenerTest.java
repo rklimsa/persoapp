@@ -108,6 +108,8 @@ public class MainViewEventListenerTest {
 	
 	private static Properties properties;
 	
+	private MainViewEventListener mainViewEventListener;
+	
 //	private ManagementService managementService = null;
 //	private SALService salService = null;
 //	private IFDService ifdService = null;
@@ -286,7 +288,10 @@ public class MainViewEventListenerTest {
 		assertNotNull("no card handler", eCardHandler);
 		assertNotNull("No eID card inserted", eCardHandler.getECard());
 		eCardHandler.reset();
-		mainView.setEventLister(new MainViewEventListener(eCardHandler, mainView));
+		
+		mainViewEventListener = new MainViewEventListener(eCardHandler, mainView);
+		
+		mainView.setEventLister(mainViewEventListener);
 		
 		wsCtx = new WSContainer();
 		assertNotNull("no web service container", wsCtx);
@@ -328,7 +333,7 @@ public class MainViewEventListenerTest {
 		
 		final TestSpy spy = new TestSpy();
 		
-		MockUp<MainViewEventListener> mockUp = new MockUp<MainViewEventListener>() {
+		MockUp<MainViewEventListener> mockUp = new MockUp<MainViewEventListener>(mainViewEventListener) {
 			
 			@Mock
 			public final Object handleEvent(mockit.Invocation inv, final int event, final Object[] optionalEventData) {

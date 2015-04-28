@@ -429,12 +429,12 @@ public class ECardWorkerTest {
 	 * 
 	 * @throws URISyntaxException
 	 * @throws GeneralSecurityException
-	 * @throws IOException
+	 * @throws MalformedURLException 
 	 */
 
 	@Test
-	public void ecardworkerTest_3() throws IOException, URISyntaxException,
-			GeneralSecurityException {
+	public void ecardworkerTest_3() throws URISyntaxException,
+			GeneralSecurityException, MalformedURLException {
 		final TestSpy spy = new TestSpy();
 		spy.setValue(false);
 
@@ -451,17 +451,21 @@ public class ECardWorkerTest {
 			}
 		};
 
-		final String refreshURL = ECardWorker.start(tcTokenURL);
-		assertNotNull("no refresh URL", refreshURL);
+		try {
+			final String refreshURL = ECardWorker.start(tcTokenURL);
+			assertNotNull("no refresh URL", refreshURL);
 
-		if (!spy.isValue()) {
-			Logger.getGlobal().info("Test function was not called. Aborting.");
-			return;
+			System.out.println("refreshURL: " + refreshURL);
+			connectToRefreshURL(refreshURL, false);
+			
+		} catch (final IOException ioe) {
+			if (!spy.isValue()) {
+				Logger.getGlobal().info("Test function was not called. Aborting.");
+				return;
+			}			
+		} finally {
+			mockUp.tearDown();
 		}
-
-		System.out.println("refreshURL: " + refreshURL);
-		connectToRefreshURL(refreshURL, false);
-		mockUp.tearDown();
 
 	}
 
@@ -491,7 +495,7 @@ public class ECardWorkerTest {
 	 */
 
 	@Test
-	public void ecardworkerTest_4() throws IOException, URISyntaxException,
+	public void ecardworkerTest_4() throws IOException, 
 			GeneralSecurityException {
 		final TestSpy spy = new TestSpy();
 		spy.setValue(false);
@@ -509,17 +513,21 @@ public class ECardWorkerTest {
 			}
 		};
 
-		final String refreshURL = ECardWorker.start(tcTokenURL);
-		assertNotNull("no refresh URL", refreshURL);
+		try {
+			final String refreshURL = ECardWorker.start(tcTokenURL);
+			assertNotNull("no refresh URL", refreshURL);
 
-		if (!spy.isValue()) {
-			Logger.getGlobal().info("Test function was not called. Aborting.");
-			return;
+			System.out.println("refreshURL: " + refreshURL);
+			connectToRefreshURL(refreshURL, false);
+			
+		} catch (final URISyntaxException use) {
+			if (!spy.isValue()) {
+				Logger.getGlobal().info("Test function was not called. Aborting.");
+				return;
+			}			
+		} finally {
+			mockUp.tearDown();
 		}
-
-		System.out.println("refreshURL: " + refreshURL);
-		connectToRefreshURL(refreshURL, false);
-		mockUp.tearDown();
 
 	}
 
@@ -611,12 +619,12 @@ public class ECardWorkerTest {
 	 * 
 	 * @throws URISyntaxException
 	 * @throws GeneralSecurityException
-	 * @throws IOException
+	 * @throws MalformedURLException 
 	 */
 
 	@Test
-	public void ecardworkerTest_6() throws IOException, URISyntaxException,
-			GeneralSecurityException {
+	public void ecardworkerTest_6() throws URISyntaxException,
+			GeneralSecurityException, MalformedURLException {
 		final TestSpy spy = new TestSpy();
 		spy.setValue(false);
 
@@ -634,17 +642,21 @@ public class ECardWorkerTest {
 			}
 		};
 
-		final String refreshURL = ECardWorker.start(tcTokenURL);
-		assertNotNull("no refresh URL", refreshURL);
+		try {
+			final String refreshURL = ECardWorker.start(tcTokenURL);
+			assertNotNull("no refresh URL", refreshURL);
 
-		if (!spy.isValue()) {
-			Logger.getGlobal().info("Test function was not called. Aborting.");
-			return;
+			System.out.println("refreshURL: " + refreshURL);
+			connectToRefreshURL(refreshURL, false);
+			
+		} catch (final IOException ioe) {
+			if (!spy.isValue()) {
+				Logger.getGlobal().info("Test function was not called. Aborting.");
+				return;
+			}			
+		} finally {
+			mockUp.tearDown();
 		}
-
-		System.out.println("refreshURL: " + refreshURL);
-		connectToRefreshURL(refreshURL, false);
-		mockUp.tearDown();
 
 	}
 
@@ -674,7 +686,7 @@ public class ECardWorkerTest {
 	 */
 
 	@Test
-	public void ecardworkerTest_7() throws IOException, URISyntaxException,
+	public void ecardworkerTest_7() throws IOException, 
 			GeneralSecurityException {
 		final TestSpy spy = new TestSpy();
 		spy.setValue(false);
@@ -693,17 +705,21 @@ public class ECardWorkerTest {
 			}
 		};
 
-		final String refreshURL = ECardWorker.start(tcTokenURL);
-		assertNotNull("no refresh URL", refreshURL);
+		try {
+			final String refreshURL = ECardWorker.start(tcTokenURL);
+			assertNotNull("no refresh URL", refreshURL);
 
-		if (!spy.isValue()) {
-			Logger.getGlobal().info("Test function was not called. Aborting.");
-			return;
+			System.out.println("refreshURL: " + refreshURL);
+			connectToRefreshURL(refreshURL, false);
+			
+		} catch (final URISyntaxException use) {
+			if (!spy.isValue()) {
+				Logger.getGlobal().info("Test function was not called. Aborting.");
+				return;
+			}			
+		} finally {
+			mockUp.tearDown();
 		}
-
-		System.out.println("refreshURL: " + refreshURL);
-		connectToRefreshURL(refreshURL, false);
-		mockUp.tearDown();
 
 	}
 
@@ -733,8 +749,7 @@ public class ECardWorkerTest {
 	 */
 
 	@Test
-	public void ecardworkerTest_8() throws IOException, URISyntaxException,
-			GeneralSecurityException {
+	public void ecardworkerTest_8() throws IOException, URISyntaxException {
 		final TestSpy spy = new TestSpy();
 		spy.setValue(false);
 
@@ -752,17 +767,21 @@ public class ECardWorkerTest {
 			}
 		};
 
-		final String refreshURL = ECardWorker.start(tcTokenURL);
-		assertNotNull("no refresh URL", refreshURL);
+		try {
+			final String refreshURL = ECardWorker.start(tcTokenURL);
+			assertNotNull("no refresh URL", refreshURL);
 
-		if (!spy.isValue()) {
-			Logger.getGlobal().info("Test function was not called. Aborting.");
-			return;
+			System.out.println("refreshURL: " + refreshURL);
+			connectToRefreshURL(refreshURL, false);
+			
+		} catch (final GeneralSecurityException gse) {
+			if (!spy.isValue()) {
+				Logger.getGlobal().info("Test function was not called. Aborting.");
+				return;
+			}			
+		} finally {
+			mockUp.tearDown();
 		}
-
-		System.out.println("refreshURL: " + refreshURL);
-		connectToRefreshURL(refreshURL, false);
-		mockUp.tearDown();
 
 	}
 
@@ -863,8 +882,7 @@ public class ECardWorkerTest {
 	 */
 
 	@Test
-	public void ecardworkerTest_10() throws IOException, URISyntaxException,
-			GeneralSecurityException {
+	public void ecardworkerTest_10() throws IOException, URISyntaxException {
 		final TestSpy spy = new TestSpy();
 		spy.setValue(false);
 
@@ -883,17 +901,22 @@ public class ECardWorkerTest {
 			}
 		};
 
-		final String refreshURL = ECardWorker.start(tcTokenURL);
-		assertNotNull("no refresh URL", refreshURL);
+		try {
+			final String refreshURL = ECardWorker.start(tcTokenURL);
+			assertNotNull("no refresh URL", refreshURL);
 
-		if (!spy.isValue()) {
-			Logger.getGlobal().info("Test function was not called. Aborting.");
-			return;
+			System.out.println("refreshURL: " + refreshURL);
+			connectToRefreshURL(refreshURL, false);
+			
+		} catch (final GeneralSecurityException gse) {
+			if (!spy.isValue()) {
+				Logger.getGlobal().info("Test function was not called. Aborting.");
+				return;
+			}			
+		} finally {
+			mockUp.tearDown();
 		}
-
-		System.out.println("refreshURL: " + refreshURL);
-		connectToRefreshURL(refreshURL, false);
-		mockUp.tearDown();
+		
 
 	}
 
@@ -943,17 +966,21 @@ public class ECardWorkerTest {
 			}
 		};
 
-		final String refreshURL = ECardWorker.start(tcTokenURL);
-		assertNotNull("no refresh URL", refreshURL);
+		try {
+			final String refreshURL = ECardWorker.start(tcTokenURL);
+			assertNotNull("no refresh URL", refreshURL);
 
-		if (!spy.isValue()) {
-			Logger.getGlobal().info("Test function was not called. Aborting.");
-			return;
+			System.out.println("refreshURL: " + refreshURL);
+			connectToRefreshURL(refreshURL, false);
+			
+		} catch (final IOException ioe) {
+			if (!spy.isValue()) {
+				Logger.getGlobal().info("Test function was not called. Aborting.");
+				return;
+			}			
+		} finally {
+			mockUp.tearDown();
 		}
-
-		System.out.println("refreshURL: " + refreshURL);
-		connectToRefreshURL(refreshURL, false);
-		mockUp.tearDown();
 
 	}
 
@@ -983,8 +1010,7 @@ public class ECardWorkerTest {
 	 */
 
 	@Test
-	public void ecardworkerTest_12() throws IOException, URISyntaxException,
-			GeneralSecurityException {
+	public void ecardworkerTest_12() throws IOException,	GeneralSecurityException {
 		final TestSpy spy = new TestSpy();
 		spy.setValue(false);
 
@@ -1003,17 +1029,21 @@ public class ECardWorkerTest {
 			}
 		};
 
-		final String refreshURL = ECardWorker.start(tcTokenURL);
-		assertNotNull("no refresh URL", refreshURL);
+		try {
+			final String refreshURL = ECardWorker.start(tcTokenURL);
+			assertNotNull("no refresh URL", refreshURL);
 
-		if (!spy.isValue()) {
-			Logger.getGlobal().info("Test function was not called. Aborting.");
-			return;
+			System.out.println("refreshURL: " + refreshURL);
+			connectToRefreshURL(refreshURL, false);
+			
+		} catch (final URISyntaxException use) {
+			if (!spy.isValue()) {
+				Logger.getGlobal().info("Test function was not called. Aborting.");
+				return;
+			}			
+		} finally {
+			mockUp.tearDown();
 		}
-
-		System.out.println("refreshURL: " + refreshURL);
-		connectToRefreshURL(refreshURL, false);
-		mockUp.tearDown();
 
 	}
 

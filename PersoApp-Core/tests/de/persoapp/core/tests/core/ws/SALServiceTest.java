@@ -94,78 +94,86 @@ import de.persoapp.core.ws.SALService;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SALServiceTest {
-	private String	serviceURL;
-	
-	private String	defaultPIN;
-	
+	private String serviceURL;
+
+	private String defaultPIN;
+
 	private CardHandler eCardHandler;
 	private WSContainer wsCtx;
-	
+
 	private static Properties properties;
-	
+
 	private MainViewEventListener mainViewEventListener;
 	@Rule
-	public TestWatcher watchman= new TestWatcher() {
-	  @Override
-	  protected void failed(Throwable e, Description description) {
-		  Logger.getGlobal().severe(description.getMethodName()+"Failed!"+" "+e.getMessage());
-	  }
+	public TestWatcher watchman = new TestWatcher() {
+		@Override
+		protected void failed(Throwable e, Description description) {
+			Logger.getGlobal().severe(
+					description.getMethodName() + "Failed!" + " "
+							+ e.getMessage());
+		}
 
-	  @Override
-	  protected void succeeded(Description description) {
-		  Logger.getGlobal().info(description.getMethodName()+" " + "success!");
-	  }
+		@Override
+		protected void succeeded(Description description) {
+			Logger.getGlobal().info(
+					description.getMethodName() + " " + "success!");
+		}
 
 	};
-		private static class TestSpy {
 
-			private boolean value;
-			private String stringValue;
+	private static class TestSpy {
 
-			/**
-			 * @return the value
-			 */
-			public boolean isValue() {
-				return value;
-			}
-			/**
-			 * @param value the value to set
-			 */
-			public void setValue(final boolean value) {
-			 	this.value = value;
-				}
-			 /**
-			  * @return the stringValue
-			  */
-			public String getStringValue() {
-				return stringValue;
-			}
-			 /**
-			  * @param stringValue the stringValue to set
-			  */
-			public void setStringValue(final String stringValue) {
-				this.stringValue = stringValue;
-			}
+		private boolean value;
+		private String stringValue;
+
+		/**
+		 * @return the value
+		 */
+		public boolean isValue() {
+			return value;
 		}
+
+		/**
+		 * @param value
+		 *            the value to set
+		 */
+		public void setValue(final boolean value) {
+			this.value = value;
+		}
+
+		/**
+		 * @return the stringValue
+		 */
+		public String getStringValue() {
+			return stringValue;
+		}
+
+		/**
+		 * @param stringValue
+		 *            the stringValue to set
+		 */
+		public void setStringValue(final String stringValue) {
+			this.stringValue = stringValue;
+		}
+	}
+
 	/**
-	 * Load the resource file for default pin and
-	 * service url.
-	 * If the resource file does not exist, it
-	 * must be created by the developer per hand.
+	 * Load the resource file for default pin and service url. If the resource
+	 * file does not exist, it must be created by the developer per hand.
 	 */
 	@BeforeClass
 	public static void setUp() throws FileNotFoundException, IOException {
 		final String resourcePath = "/tests/resources/test_config.properties";
-		final File res = new File(new File("").getAbsolutePath()+resourcePath);
+		final File res = new File(new File("").getAbsolutePath() + resourcePath);
 
-		if(res.exists()) {
+		if (res.exists()) {
 			properties = new Properties();
 			properties.load(new FileInputStream(res));
-		}
-		else {
+		} else {
 			throw new FileNotFoundException("File not found: " + resourcePath);
 		}
 	}
+
 	/**
 	 * <b>Preconditions:</b>
 	 * <ul>
@@ -251,40 +259,41 @@ public class SALServiceTest {
 	 * <ul>
 	 * <li>No Exception occurred, which indicates an successful result.</li>.
 	 * </ul>
-	 */	
+	 */
 	@Before
 	public void init() {
-		
+
 		defaultPIN = (String) properties.get("Default_PIN");
-		
+
 		serviceURL = (String) properties.get("eID_service_URL");
-		
+
 		final IMainView mainView = TestMainView.getInstance(defaultPIN);
 		assertNotNull("no main view", mainView);
 
 		eCardHandler = new CardHandler(mainView);
-		
+
 		assertNotNull("no card handler", eCardHandler);
 		assertNotNull("No eID card inserted", eCardHandler.getECard());
 		eCardHandler.reset();
-		
-		mainViewEventListener = new MainViewEventListener(eCardHandler, mainView);
+
+		mainViewEventListener = new MainViewEventListener(eCardHandler,
+				mainView);
 		mainView.setEventLister(mainViewEventListener);
-		
+
 		wsCtx = new WSContainer();
 		assertNotNull("no web service container", wsCtx);
 
 		wsCtx.addService(new ManagementService());
 		wsCtx.addService(new SALService());
 		wsCtx.addService(new IFDService());
-		wsCtx.init(null);			
+		wsCtx.init(null);
 
-		ECardWorker.init(mainView, wsCtx, eCardHandler);	
+		ECardWorker.init(mainView, wsCtx, eCardHandler);
 	}
 
 	/**
-	 * Online authentication is triggered and the method <em>de.persoapp.core.ws.SALService.init()</em>
-	 * is tested</br>.
+	 * Online authentication is triggered and the method
+	 * <em>de.persoapp.core.ws.SALService.init()</em> is tested</br>.
 	 * <b>Preconditions:</b>
 	 * <ul>
 	 * <li>A single basic card reader is connected to the eID-Client system.</li>
@@ -296,57 +305,55 @@ public class SALServiceTest {
 	 * </ul>
 	 * <b>Expected Result: </b>
 	 * <ul>
-		* <li>The online authentication completes with no errors.</li>
+	 * <li>The online authentication completes with no errors.</li>
 	 * </ul>
 	 * 
 	 * @throws URISyntaxException
 	 * @throws GeneralSecurityException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 
-@Test
-public void salserviceTest_1() throws IOException, URISyntaxException, GeneralSecurityException {
+	@Test
+	public void salserviceTest_1() throws IOException, URISyntaxException,
+			GeneralSecurityException {
 		final TestSpy spy = new TestSpy();
-
 
 		final URL tcTokenURL = new URL(serviceURL);
 
-
-MockUp<SALService> mockUp = new MockUp<SALService>() {
-@Mock
-public void init(mockit.Invocation inv) { 
+		MockUp<SALService> mockUp = new MockUp<SALService>() {
+			@Mock
+			public void init(mockit.Invocation inv) {
 
 				try {
-					
+
 					inv.proceed();
 
 				} catch (final AssertionError ae) {
 					spy.setStringValue(ae.getMessage());
 					throw new AssertionError(ae.getMessage(), ae);
 				}
- 
 
-}
- };
+			}
+		};
 
 		final String refreshURL = ECardWorker.start(tcTokenURL);
 		assertNotNull("no refresh URL", refreshURL);
 
-
-
-		if(spy.getStringValue()!=null&&!spy.getStringValue().trim().isEmpty()) { 
-mockUp.tearDown();
+		if (spy.getStringValue() != null
+				&& !spy.getStringValue().trim().isEmpty()) {
+			mockUp.tearDown();
 			fail(spy.getStringValue());
 		}
-
 
 		System.out.println("refreshURL: " + refreshURL);
 		connectToRefreshURL(refreshURL, true);
 		mockUp.tearDown();
 
-}	/**
-	 * Online authentication is triggered and the method <em>de.persoapp.core.ws.SALService.didAuthenticate()</em>
-	 * is tested</br>.
+	}
+
+	/**
+	 * Online authentication is triggered and the method
+	 * <em>de.persoapp.core.ws.SALService.didAuthenticate()</em> is tested</br>.
 	 * <b>Preconditions:</b>
 	 * <ul>
 	 * <li>A single basic card reader is connected to the eID-Client system.</li>
@@ -355,78 +362,83 @@ mockUp.tearDown();
 	 * <b>TestStep: </b>
 	 * <ul>
 	 * <li>The online authentication is triggered.</li>
-		* <li>All parameters are checked being <b>not null</b></li>
-		* <li>The return value is checked being <b>not null</b></li>
+	 * <li>All parameters are checked being <b>not null</b></li>
+	 * <li>The return value is checked being <b>not null</b></li>
 	 * </ul>
 	 * <b>Expected Result: </b>
 	 * <ul>
-		* <li>The online authentication completes with no errors.</li>
+	 * <li>The online authentication completes with no errors.</li>
 	 * </ul>
 	 * 
 	 * @throws URISyntaxException
 	 * @throws GeneralSecurityException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 
-@Test
-public void salserviceTest_2() throws IOException, URISyntaxException, GeneralSecurityException {
+	@Test
+	public void salserviceTest_2() throws IOException, URISyntaxException,
+			GeneralSecurityException {
 		final TestSpy spy = new TestSpy();
-
 
 		final URL tcTokenURL = new URL(serviceURL);
 
-
-MockUp<SALService> mockUp = new MockUp<SALService>() {
-@Mock
-public iso.std.iso_iec._24727.tech.schema.DIDAuthenticateResponse didAuthenticate(mockit.Invocation inv, iso.std.iso_iec._24727.tech.schema.DIDAuthenticate parameters) { 
+		MockUp<SALService> mockUp = new MockUp<SALService>() {
+			@Mock
+			public iso.std.iso_iec._24727.tech.schema.DIDAuthenticateResponse didAuthenticate(
+					mockit.Invocation inv,
+					iso.std.iso_iec._24727.tech.schema.DIDAuthenticate parameters) {
 
 				try {
-					assertNotNull("parameters is null.",parameters);
+					assertNotNull("parameters is null.", parameters);
 
-					final iso.std.iso_iec._24727.tech.schema.DIDAuthenticateResponse result = inv.proceed(parameters);
-assertNotNull("result is null.",result);
-return result;
+					final iso.std.iso_iec._24727.tech.schema.DIDAuthenticateResponse result = inv
+							.proceed(parameters);
+					assertNotNull("result is null.", result);
+					return result;
 
 				} catch (final AssertionError ae) {
 					spy.setStringValue(ae.getMessage());
 					throw new AssertionError(ae.getMessage(), ae);
 				}
- 
 
-}
- };
+			}
+		};
 
 		final String refreshURL = ECardWorker.start(tcTokenURL);
 		assertNotNull("no refresh URL", refreshURL);
 
-
-
-		if(spy.getStringValue()!=null&&!spy.getStringValue().trim().isEmpty()) { 
-mockUp.tearDown();
+		if (spy.getStringValue() != null
+				&& !spy.getStringValue().trim().isEmpty()) {
+			mockUp.tearDown();
 			fail(spy.getStringValue());
 		}
-
 
 		System.out.println("refreshURL: " + refreshURL);
 		connectToRefreshURL(refreshURL, true);
 		mockUp.tearDown();
 
-}
-		private void connectToRefreshURL(final String refreshURL, boolean success) throws IOException {
-		
-		if(success) {
-			assertFalse("process failed", refreshURL.toLowerCase().indexOf("resultmajor=ok") < 0);			
+	}
+
+	private void connectToRefreshURL(final String refreshURL, boolean success)
+			throws IOException {
+
+		if (success) {
+			assertFalse("process failed",
+					refreshURL.toLowerCase().indexOf("resultmajor=ok") < 0);
 		} else {
-			assertFalse("process succeeded",refreshURL.toLowerCase().indexOf("resultmajor=ok") > 0);
+			assertFalse("process succeeded",
+					refreshURL.toLowerCase().indexOf("resultmajor=ok") > 0);
 		}
 
 		final URL refresh = new URL(refreshURL);
 		final HttpURLConnection uc = (HttpsURLConnection) Util.openURL(refresh);
 		uc.setInstanceFollowRedirects(true);
 		final Object content = uc.getContent();
-		System.out.println("HTTP Response " + uc.getResponseCode() + " " + uc.getResponseMessage());
+		System.out.println("HTTP Response " + uc.getResponseCode() + " "
+				+ uc.getResponseMessage());
 		if (content instanceof InputStream) {
-			final Scanner scanner = new Scanner((InputStream) content, "UTF-8").useDelimiter("\\A");
+			final Scanner scanner = new Scanner((InputStream) content, "UTF-8")
+					.useDelimiter("\\A");
 			System.out.println(scanner.next());
 			scanner.close();
 		} else {
@@ -434,29 +446,29 @@ mockUp.tearDown();
 		}
 	}
 
-		/**
-		 * Reset the ECardWorker. Delay test execution to prevent race 
-		 * condition between testcases.
-		 * 
-		 * @throws NoSuchFieldException
-		 * @throws SecurityException
-		 * @throws IllegalArgumentException
-		 * @throws IllegalAccessException
-		 */
-		 @After
-		 public synchronized void cleanUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-		 final long end = System.currentTimeMillis() + 6000;
+	/**
+	 * Reset the ECardWorker. Delay test execution to prevent race condition
+	 * between testcases.
+	 * 
+	 * @throws NoSuchFieldException
+	 * @throws SecurityException
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
+	@After
+	public synchronized void cleanUp() throws NoSuchFieldException,
+			SecurityException, IllegalArgumentException, IllegalAccessException {
+		final long end = System.currentTimeMillis() + 6000;
 
-		 while(System.currentTimeMillis()<end) {
-		 // wait to prevent race condition between testcases.
-		 }
+		while (System.currentTimeMillis() < end) {
+			// wait to prevent race condition between testcases.
+		}
 
-	final Field field = ECardWorker.class.getDeclaredField("mainView");
-field.setAccessible(true);
-field.set(null, null);
-field.setAccessible(false);
-ECardWorker.init(null, null, null);
-
+		final Field field = ECardWorker.class.getDeclaredField("mainView");
+		field.setAccessible(true);
+		field.set(null, null);
+		field.setAccessible(false);
+		ECardWorker.init(null, null, null);
 
 	}
 

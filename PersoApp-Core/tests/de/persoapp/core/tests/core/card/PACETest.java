@@ -289,7 +289,7 @@ public class PACETest {
 				try {
 					assertNotNull("pcData is null.", pcData);
 
-					inv.proceed(pcData);
+					inv.proceed(new Object[]{pcData});
 
 				} catch (final AssertionError ae) {
 					spy.setStringValue(ae.getMessage());
@@ -480,7 +480,7 @@ public class PACETest {
 				try {
 					assertNotNull("p is null.", p);
 
-					final byte[] result = inv.proceed(p);
+					final byte[] result = inv.proceed(new Object[]{p});
 					assertNotNull("result is null.", result);
 					return result;
 
@@ -545,7 +545,7 @@ public class PACETest {
 				try {
 					assertNotNull("in is null.", in);
 
-					final BigInteger[] result = inv.proceed(in);
+					final BigInteger[] result = inv.proceed(new Object[]{in});
 					assertNotNull("result is null.", result);
 					return result;
 
@@ -673,7 +673,7 @@ public class PACETest {
 				try {
 					assertNotNull("mapData is null.", mapData);
 
-					final byte[] result = inv.proceed(mapData);
+					final byte[] result = inv.proceed(new Object[]{mapData});
 					assertNotNull("result is null.", result);
 					return result;
 
@@ -738,7 +738,7 @@ public class PACETest {
 				try {
 					assertNotNull("mapData is null.", mapData);
 
-					final byte[][] result = inv.proceed(mapData);
+					final byte[][] result = inv.proceed(new Object[]{mapData});
 					assertNotNull("result is null.", result);
 					return result;
 
@@ -1071,7 +1071,7 @@ public class PACETest {
 				try {
 					assertNotNull("p is null.", p);
 
-					final BigInteger[] result = inv.proceed(p);
+					final BigInteger[] result = inv.proceed(new Object[]{p});
 					assertNotNull("result is null.", result);
 					return result;
 

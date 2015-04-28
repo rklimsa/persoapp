@@ -468,7 +468,7 @@ public class CardHandlerTest {
 	 * <b>TestStep: </b>
 	 * <ul>
 	 * <li>The online authentication is triggered.</li>
-	 * <li>All parameters are checked being <b>not null</b></li>
+	 * <li>The commonly used parameters are checked being <b>not null</b></li>
 	 * <li>The return value is checked being <b>not null</b></li>
 	 * </ul>
 	 * <b>Expected Result: </b>
@@ -495,9 +495,12 @@ public class CardHandlerTest {
 
 				try {
 					assertNotNull("tp is null.", tp);
-					assertNotNull("authData is null.", authData);
 					assertNotNull("lastCommand is null.", lastCommand);
 
+					if(lastCommand) {
+						assertNotNull("authData is null.", authData);
+					}
+					
 					final byte[] result = inv
 							.proceed(tp, authData, lastCommand);
 					assertNotNull("result is null.", result);
