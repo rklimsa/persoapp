@@ -71,14 +71,15 @@ import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 
 import de.persoapp.core.ECardWorker;
 import de.persoapp.core.card.CardHandler;
@@ -97,6 +98,7 @@ import de.persoapp.core.ws.engine.WSEndpoint;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
 public class MainViewEventListenerTest {
 
 	private String	serviceURL;
@@ -273,7 +275,6 @@ public class MainViewEventListenerTest {
 	 * <li>No Exception occurred, which indicates an successful result.</li>.
 	 * </ul>
 	 */	
-	@Before
 	public void init() {
 		
 		DEFAULT_PIN = (String) properties.get("Default_PIN");
@@ -333,7 +334,7 @@ public class MainViewEventListenerTest {
 		
 		final TestSpy spy = new TestSpy();
 		
-		MockUp<MainViewEventListener> mockUp = new MockUp<MainViewEventListener>(mainViewEventListener) {
+		MockUp<MainViewEventListener> mockUp = new MockUp<MainViewEventListener>() {
 			
 			@Mock
 			public final Object handleEvent(mockit.Invocation inv, final int event, final Object[] optionalEventData) {
@@ -357,6 +358,8 @@ public class MainViewEventListenerTest {
 			}
 			
 		};
+		
+		init();
 		
 		URL tcTokenURL = null;
 

@@ -76,14 +76,18 @@ import javax.xml.ws.handler.MessageContext;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import de.persoapp.core.ECardWorker;
 import de.persoapp.core.card.CardHandler;
@@ -102,6 +106,8 @@ import de.persoapp.core.ws.engine.WSEndpoint;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WSContainerTest {
 
 	private String serviceURL;
@@ -334,7 +340,7 @@ public class WSContainerTest {
 		final TestSpy spy = new TestSpy();
 		final URL tcTokenURL = new URL(serviceURL);
 		
-		MockUp<WSContainer> mockUp = new MockUp<WSContainer>(wsCtx){
+		MockUp<WSContainer> mockUp = new MockUp<WSContainer>(){
 
 			@Mock
 			public final Object processRequest(mockit.Invocation inv, final QName name, final Object message) {
@@ -351,6 +357,8 @@ public class WSContainerTest {
 
 			}
 		};
+		
+		init();
 		
 		final String refreshURL = ECardWorker.start(tcTokenURL);
 		assertNotNull("no refresh URL", refreshURL);
@@ -397,7 +405,7 @@ public class WSContainerTest {
 		final TestSpy spy = new TestSpy();
 		final URL tcTokenURL = new URL(serviceURL);
 		
-		MockUp<WSContainer> mockUp = new MockUp<WSContainer>(wsCtx){
+		MockUp<WSContainer> mockUp = new MockUp<WSContainer>(){
 
 			@Mock
 			public final Object processRequest(mockit.Invocation inv, final QName name, final Object message) {
@@ -413,6 +421,8 @@ public class WSContainerTest {
 				}
 			}			
 		};
+		
+		init();
 		
 		final String refreshURL = ECardWorker.start(tcTokenURL);
 		assertNotNull("no refresh URL", refreshURL);
@@ -461,7 +471,7 @@ public class WSContainerTest {
 		
 		final URL tcTokenURL = new URL(serviceURL);
 		
-		MockUp<WSContainer> mockUp = new MockUp<WSContainer>(wsCtx){
+		MockUp<WSContainer> mockUp = new MockUp<WSContainer>(){
 
 			@Mock
 			public final Object processRequest(mockit.Invocation inv, final QName name, final Object message) {
@@ -478,7 +488,8 @@ public class WSContainerTest {
 			}			
 		};
 		
-
+		init();
+		
 		final String refreshURL = ECardWorker.start(tcTokenURL);
 
 		assertNotNull("no refresh URL", refreshURL);

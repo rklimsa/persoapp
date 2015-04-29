@@ -61,28 +61,29 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import de.persoapp.core.ECardWorker;
 import de.persoapp.core.card.CardHandler;
@@ -101,6 +102,8 @@ import de.persoapp.core.ws.engine.WSEndpoint;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WSEndpointTest {
 	
 	private String serviceURL;

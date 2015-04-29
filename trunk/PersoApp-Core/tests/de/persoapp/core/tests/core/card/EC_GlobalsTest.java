@@ -72,6 +72,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -80,6 +81,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 
 import de.persoapp.core.ECardWorker;
 import de.persoapp.core.card.CMac;
@@ -100,6 +102,7 @@ import de.persoapp.core.ws.engine.WSEndpoint;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
 public class EC_GlobalsTest {
 
 	private String	serviceURL;

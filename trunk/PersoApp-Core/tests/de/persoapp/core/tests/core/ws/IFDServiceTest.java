@@ -25,6 +25,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,10 +35,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import de.persoapp.core.ECardWorker;
-
 import de.persoapp.core.card.CardHandler;
 import de.persoapp.core.client.IMainView;
 import de.persoapp.core.client.MainViewEventListener;
@@ -55,10 +56,12 @@ import de.persoapp.core.paos.MiniHttpClient;
 import iso.std.iso_iec._24727.tech.schema.IFD;
 import iso.std.iso_iec._24727.tech.schema.InputAPDUInfoType;
 import iso.std.iso_iec._24727.tech.schema.TransmitResponse;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.jws.WebService;
 import javax.xml.ws.WebServiceContext;
+
 import oasis.names.tc.dss._1_0.core.schema.Result;
 import de.persoapp.core.card.ICardHandler;
 import de.persoapp.core.client.ECardSession;
@@ -69,6 +72,7 @@ import de.persoapp.core.ws.IFDService;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IFDServiceTest {
 	private String serviceURL;

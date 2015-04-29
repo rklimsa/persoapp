@@ -75,6 +75,7 @@ import javax.net.ssl.SSLSession;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -83,6 +84,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 
 import de.persoapp.core.ECardWorker;
 import de.persoapp.core.card.CardHandler;
@@ -110,6 +112,7 @@ import de.persoapp.core.ws.engine.WSContainer;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
 public class BCTlsComponentTest {
 
 	
@@ -323,7 +326,7 @@ public class BCTlsComponentTest {
 	 * <li>A single basic card reader is connected to the eID-Client system.</li>
 	 * <li>A single active test eID-Card is connected to the card reader.</li>
 	 * </ul>
-	 * <b>TestStep: </b>
+	 * <b>TestSteps: </b>
 	 * <ul>
 	 * <li>The online authentication is triggered.</li>
 	 * <li>All parameters are checked being <b>not null</b></li>

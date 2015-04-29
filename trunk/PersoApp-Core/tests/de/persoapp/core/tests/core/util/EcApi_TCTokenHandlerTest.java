@@ -25,6 +25,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,10 +35,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import de.persoapp.core.ECardWorker;
-
 import de.persoapp.core.card.CardHandler;
 import de.persoapp.core.client.IMainView;
 import de.persoapp.core.client.MainViewEventListener;
@@ -52,12 +53,15 @@ import de.persoapp.core.card.CCID;
 import de.persoapp.core.paos.PAOSInitiator;
 import de.persoapp.core.paos.PAOSInitiatorFactory;
 import de.persoapp.core.paos.MiniHttpClient;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
+
 import de.persoapp.core.util.EcApi_TCTokenHandler;
 
 /**
@@ -65,6 +69,7 @@ import de.persoapp.core.util.EcApi_TCTokenHandler;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EcApi_TCTokenHandlerTest {
 	private String	serviceURL;

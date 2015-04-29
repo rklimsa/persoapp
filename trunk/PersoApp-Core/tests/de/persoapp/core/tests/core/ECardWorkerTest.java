@@ -25,6 +25,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,10 +35,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import de.persoapp.core.ECardWorker;
-
 import de.persoapp.core.card.CardHandler;
 import de.persoapp.core.client.IMainView;
 import de.persoapp.core.client.MainViewEventListener;
@@ -54,6 +55,7 @@ import de.persoapp.core.paos.PAOSInitiatorFactory;
 import de.persoapp.core.paos.MiniHttpClient;
 import iso.std.iso_iec._24727.tech.schema.ChannelHandleType;
 import iso.std.iso_iec._24727.tech.schema.ResponseType;
+
 import java.net.URI;
 import java.net.URLConnection;
 import java.security.MessageDigest;
@@ -63,6 +65,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Exchanger;
+
 import de.persoapp.core.card.ICardHandler;
 import de.persoapp.core.client.EAC_Info;
 import de.persoapp.core.client.ECardSession;
@@ -77,6 +80,7 @@ import de.persoapp.core.ECardWorker;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ECardWorkerTest {
 	private String serviceURL;
