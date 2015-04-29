@@ -25,6 +25,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,10 +35,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import de.persoapp.core.ECardWorker;
-
 import de.persoapp.core.card.CardHandler;
 import de.persoapp.core.client.IMainView;
 import de.persoapp.core.client.MainViewEventListener;
@@ -58,12 +59,14 @@ import iso.std.iso_iec._24727.tech.schema.EAC1OutputType;
 import iso.std.iso_iec._24727.tech.schema.EAC2InputType;
 import iso.std.iso_iec._24727.tech.schema.EAC2OutputType;
 import iso.std.iso_iec._24727.tech.schema.EACAdditionalInputType;
+
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+
 import de.persoapp.core.card.ICardHandler;
 import de.persoapp.core.client.EAC_Info;
 import de.persoapp.core.client.ECardSession;
@@ -79,6 +82,7 @@ import de.persoapp.core.ws.EACProtocolHandler;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EACProtocolHandlerTest {
 	private String	serviceURL;

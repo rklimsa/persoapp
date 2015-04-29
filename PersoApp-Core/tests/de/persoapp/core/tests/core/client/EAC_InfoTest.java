@@ -23,6 +23,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,10 +33,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import de.persoapp.core.ECardWorker;
-
 import de.persoapp.core.card.CardHandler;
 import de.persoapp.core.client.IMainView;
 import de.persoapp.core.client.MainViewEventListener;
@@ -45,7 +46,9 @@ import de.persoapp.core.ws.ManagementService;
 import de.persoapp.core.ws.SALService;
 import de.persoapp.core.ws.engine.WSContainer;
 import de.persoapp.core.util.Util;
+
 import java.util.Date;
+
 import de.persoapp.core.client.EAC_Info;
 
 /**
@@ -53,6 +56,7 @@ import de.persoapp.core.client.EAC_Info;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EAC_InfoTest {
 	private String serviceURL;
@@ -1096,7 +1100,6 @@ public class EAC_InfoTest {
 	 * <b>TestStep: </b>
 	 * <ul>
 	 * <li>The online authentication is triggered.</li>
-	 * <li>The return value is checked being <b>not null</b></li>
 	 * </ul>
 	 * <b>Expected Result: </b>
 	 * <ul>
@@ -1122,7 +1125,6 @@ public class EAC_InfoTest {
 				try {
 
 					final String transactionInfo = inv.proceed();
-					assertNotNull("transactionInfo is null.", transactionInfo);
 					return transactionInfo;
 
 				} catch (final AssertionError ae) {

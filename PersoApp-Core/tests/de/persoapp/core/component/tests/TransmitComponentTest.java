@@ -72,6 +72,8 @@ import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -80,6 +82,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 
 import de.persoapp.core.ECardWorker;
 import de.persoapp.core.card.CardHandler;
@@ -106,8 +109,8 @@ import de.persoapp.core.ws.engine.WSContainer;
  * </p>
  * 
  * @author Rico Klimsa, 2015
- *
  */
+@RunWith(JMockit.class)
 public class TransmitComponentTest {
 
 	private byte[] taKey;
@@ -310,7 +313,29 @@ public class TransmitComponentTest {
 		ECardWorker.init(mainView, wsCtx, eCardHandler);
 	}
 	
-	
+	/**
+	 * Online authentication is triggered and the components to send data on a
+	 * secure channel are tested. </br> 
+	 * <b>Preconditions:</b>
+	 * <ul>
+	 * <li>A single basic card reader is connected to the eID-Client system.</li>
+	 * <li>A single active test eID-Card is connected to the card reader.</li>
+	 * </ul>
+	 * <b>TestSteps: </b>
+	 * <ul>
+	 * <li>The online authentication is triggered.</li>
+	 * <li>All commonly used parameters are checked being <b>not null</b></li>
+	 * <li>The terminal authentication key is checked not to change during the authentication process.</li>
+	 * </ul>
+	 * <b>Expected Result: </b>
+	 * <ul>
+	 * <li>The transmission of data is successful. An error is not signaled.</li>
+	 * </ul>
+	 * 
+	 * @throws URISyntaxException
+	 * @throws GeneralSecurityException
+	 * @throws IOException
+	 */
 	@Test
 	public void transmitComponentTest_1() throws IOException, URISyntaxException, GeneralSecurityException {
 		
@@ -367,7 +392,7 @@ public class TransmitComponentTest {
 
 					final byte[] result = inv
 							.proceed(tp, authData, lastCommand);
-//					assertNotNull("result is null.", result);
+
 					return result;
 
 				} catch (final AssertionError | IllegalArgumentException
@@ -399,6 +424,9 @@ public class TransmitComponentTest {
 					byte CHAT[], SecureHolder secret, byte[] termDesc) {
 
 				try {
+					
+					Logger.getGlobal().info("start authentication.");
+					
 					assertNotNull("CHAT is null.", CHAT);
 					assertNotNull("secret is null.", secret);
 					assertNotNull("termDesc is null.", termDesc);

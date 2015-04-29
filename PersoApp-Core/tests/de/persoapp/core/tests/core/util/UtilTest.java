@@ -22,6 +22,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,6 +32,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import de.persoapp.core.ECardWorker;
@@ -57,6 +59,7 @@ import org.xml.sax.ContentHandler;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UtilTest {
 	private String serviceURL;

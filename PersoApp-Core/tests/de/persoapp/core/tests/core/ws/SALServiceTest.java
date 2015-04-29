@@ -25,6 +25,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,10 +35,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import de.persoapp.core.ECardWorker;
-
 import de.persoapp.core.card.CardHandler;
 import de.persoapp.core.client.IMainView;
 import de.persoapp.core.client.MainViewEventListener;
@@ -61,6 +62,7 @@ import iso.std.iso_iec._24727.tech.schema.EAC2InputType;
 import iso.std.iso_iec._24727.tech.schema.EAC2OutputType;
 import iso.std.iso_iec._24727.tech.schema.EACAdditionalInputType;
 import iso.std.iso_iec._24727.tech.schema.SAL;
+
 import java.math.BigInteger;
 import java.net.URI;
 import java.nio.ByteBuffer;
@@ -70,12 +72,14 @@ import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.jws.WebMethod;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.ws.WebServiceContext;
+
 import oasis.names.tc.dss._1_0.core.schema.Result;
 import de.persoapp.core.card.ICardHandler;
 import de.persoapp.core.client.EAC_Info;
@@ -92,6 +96,7 @@ import de.persoapp.core.ws.SALService;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SALServiceTest {
 	private String serviceURL;

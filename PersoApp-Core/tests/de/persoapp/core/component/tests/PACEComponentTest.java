@@ -75,6 +75,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -84,6 +85,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import de.persoapp.core.ECardWorker;
@@ -105,7 +107,7 @@ import de.persoapp.core.ws.engine.WSContainer;
  * 
  * @author Rico Klimsa, 2015
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@RunWith(JMockit.class)
 public class PACEComponentTest {
 
 	private String serviceURL;
@@ -306,6 +308,28 @@ public class PACEComponentTest {
 	}
 	
 	
+	/**
+	 * Online authentication is triggered and the component to utilize the PACE algorithm is tested.</br>
+	 * All functions are mocked in a single mockUp.
+	 * <b>Preconditions:</b>
+	 * <ul>
+	 * <li>A single basic card reader is connected to the eID-Client system.</li>
+	 * <li>A single active test eID-Card is connected to the card reader.</li>
+	 * </ul>
+	 * <b>TestSteps: </b>
+	 * <ul>
+	 * <li>The online authentication is triggered.</li>
+	 * <li>All commonly used parameters are checked being <b>not null</b></li>
+	 * </ul>
+	 * <b>Expected Result: </b>
+	 * <ul>
+	 * <li>The establishment of the secure channel using pace is successful. An error is not going to be signaled.</li>
+	 * </ul>
+	 * 
+	 * @throws URISyntaxException
+	 * @throws GeneralSecurityException
+	 * @throws IOException
+	 */
 	@Test
 	public void paceComponentTest() throws IOException, URISyntaxException, GeneralSecurityException {
 		

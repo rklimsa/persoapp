@@ -73,6 +73,7 @@ import javax.xml.namespace.QName;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -81,6 +82,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 
 import de.persoapp.core.ECardWorker;
 import de.persoapp.core.card.CardHandler;
@@ -99,9 +101,8 @@ import de.persoapp.core.ws.engine.WSEndpoint;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
 public class WebServiceComponentTest {
-
-	private int called = 0;
 
 	private boolean didAuthenticate = false;
 	
@@ -306,6 +307,29 @@ public class WebServiceComponentTest {
 	
 	
 	
+	/**
+	 * Online authentication is triggered and the local webservices are. </br>
+	 * <b>Preconditions:</b>
+	 * <ul>
+	 * <li>A single basic card reader is connected to the eID-Client system.</li>
+	 * <li>A single active test eID-Card is connected to the card reader.</li>
+	 * </ul>
+	 * <b>TestSteps: </b>
+	 * <ul>
+	 * <li>The online authentication is triggered.</li>
+	 * <li>All commonly used parameters are checked being <b>not null</b>.</li>
+	 * <li>The endpoints are checked to be initialized.</li>
+	 * <li>Every endpoint is checked to be correctly added to the web service container.</li>
+	 * </ul>
+	 * <b>Expected Result: </b>
+	 * <ul>
+	 * <li>The online authentication completes without an error.</li>
+	 * </ul>
+	 * 
+	 * @throws URISyntaxException
+	 * @throws GeneralSecurityException
+	 * @throws IOException
+	 */
 	@Test
 	public void webServiceComponentTest_1() throws IOException, URISyntaxException, GeneralSecurityException {
 		
@@ -320,8 +344,6 @@ public class WebServiceComponentTest {
 			@Mock
 			public final Object processRequest(mockit.Invocation inv, final QName name, final Object message) {
 				try{
-					called = inv.getInvocationCount();
-					
 					// Check that the arguments are complete
 					assertNotNull("Qname is null", name);
 					assertNotNull("Message is null", message);
@@ -398,9 +420,10 @@ public class WebServiceComponentTest {
 							endpointsMap.containsKey(wse.getPortName()));
 
 					field.setAccessible(false);
-				} catch (final NoSuchFieldException | SecurityException
-						| IllegalArgumentException | IllegalAccessException e) {
-					e.printStackTrace();
+				} catch (final AssertionError | NoSuchFieldException | SecurityException
+						| IllegalArgumentException | IllegalAccessException ae) {
+					spy.setStringValue(ae.getMessage());
+					throw new AssertionError(ae.getMessage(), ae);
 				}
 
 			}
@@ -409,8 +432,6 @@ public class WebServiceComponentTest {
 		};
 		
 		final MockUp<WSEndpoint> mockUpWSEndpoint = new MockUp<WSEndpoint>() {
-		
-			
 			
 		};
 		

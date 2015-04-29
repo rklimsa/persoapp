@@ -22,6 +22,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import mockit.Mock;
 import mockit.MockUp;
+import mockit.integration.junit4.JMockit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,10 +32,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import de.persoapp.core.ECardWorker;
-
 import de.persoapp.core.card.CardHandler;
 import de.persoapp.core.client.IMainView;
 import de.persoapp.core.client.MainViewEventListener;
@@ -44,8 +45,10 @@ import de.persoapp.core.ws.ManagementService;
 import de.persoapp.core.ws.SALService;
 import de.persoapp.core.ws.engine.WSContainer;
 import de.persoapp.core.util.Util;
+
 import org.bouncycastle.crypto.tls.CertificateRequest;
 import org.bouncycastle.crypto.tls.TlsCredentials;
+
 import de.persoapp.core.tls.BCTlsAuthentication;
 
 /**
@@ -53,6 +56,7 @@ import de.persoapp.core.tls.BCTlsAuthentication;
  * 
  * @author Rico Klimsa, 2015
  */
+@RunWith(JMockit.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BCTlsAuthenticationTest {
 	private String serviceURL;
